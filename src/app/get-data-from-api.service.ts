@@ -14,8 +14,20 @@ export class GetDataFromAPIService implements IWeatherService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCurrentWeather(city: string, country: string): Observable<ICurrentWeather>{
-    return this.httpClient.get<IApiData>(`${environment.baseURL}api.openweathermap.org/data/2.5/weather?q=${city},${country}&appId=${environment.appId}`).pipe(map(data => this.transformToICurrentWeather(data)));
+  getCurrentWeather(searchText: string | number, country?: string): Observable<ICurrentWeather>{
+
+    let uriParams = '';
+    if(typeof(searchText) === 'string'){
+      uriParams = `q=${searchText}`;
+    }else{
+      uriParams = `zip=${searchText}`;
+    }
+
+    if(country){
+      uriParams = `${uriParams},${country}`;
+    }
+
+    return this.httpClient.get<IApiData>(`${environment.baseURL}api.openweathermap.org/data/2.5/weather?${uriParams}&appId=${environment.appId}`).pipe(map(data => this.transformToICurrentWeather(data)));
   }
 
   private transformToICurrentWeather(data: IApiData): ICurrentWeather{

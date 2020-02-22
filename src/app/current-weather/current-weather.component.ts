@@ -1,8 +1,6 @@
 import { Component, OnInit, Injectable, Inject } from '@angular/core';
 import { ICurrentWeather } from '../icurrent-weather';
 import { GetDataFromAPIService } from '../get-data-from-api.service';
-import { IWeatherService } from '../iweather-service';
-
 
 @Component({
   selector: 'app-current-weather',
@@ -15,7 +13,7 @@ export class CurrentWeatherComponent implements OnInit {
   constructor(private getDataFromApi: GetDataFromAPIService) { }
 
   ngOnInit() {
-    this.getDataFromApi.getCurrentWeather('Seattle','US').subscribe(data => this.current = data);
+    this.getDataFromApi.getCurrentWeather('Mill Creek','US').subscribe(data => this.current = data);
   }
 
   
